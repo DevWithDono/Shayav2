@@ -1,12 +1,12 @@
 import React from 'react';
 import { AuthProvider } from './context/AuthContext';
-import { FinanceProvider } from './context/FinanceContext';
+import { CreationsProvider } from './context/CreationsContext';
 import { CustomizationProvider } from './context/CustomizationContext';
 import { useAuth } from './context/AuthContext';
 import Header from './components/Header';
-import Balance from './components/Balance';
-import TransactionList from './components/TransactionList';
-import AddTransactionButton from './components/AddTransactionButton';
+import CreationsStats from './components/CreationsStats';
+import CreationsList from './components/CreationsList';
+import AddCreationButton from './components/AddCreationButton';
 import LandingPage from './components/LandingPage';
 
 function AppContent() {
@@ -22,24 +22,15 @@ function AppContent() {
       
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <Balance />
+          <CreationsStats />
         </div>
         
-        <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-          <TransactionList
-            title="Revenus"
-            icon="transfer"
-            type="income"
-          />
-          <TransactionList
-            title="Dépenses"
-            icon="debit"
-            type="expense"
-          />
+        <div className="grid gap-6 grid-cols-1">
+          <CreationsList title="Mes créations" />
         </div>
       </main>
       
-      <AddTransactionButton />
+      <AddCreationButton />
     </div>
   );
 }
@@ -48,9 +39,9 @@ function App() {
   return (
     <AuthProvider>
       <CustomizationProvider>
-        <FinanceProvider>
+        <CreationsProvider>
           <AppContent />
-        </FinanceProvider>
+        </CreationsProvider>
       </CustomizationProvider>
     </AuthProvider>
   );

@@ -1,3 +1,20 @@
+export interface Creation {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  status: 'draft' | 'pending' | 'published' | 'rejected';
+  views?: number;
+  sales?: number;
+  tags?: string[];
+  imageUrl?: string;
+  fileUrl?: string;
+  rejectionReason?: string;
+  lastModified: string;
+}
+
+// Keep Transaction for backwards compatibility during transition
 export interface Transaction {
   id: number;
   title: string;
@@ -12,9 +29,26 @@ export interface Transaction {
 export interface Category {
   id: string;
   name: string;
-  type: 'income' | 'expense';
+  type: 'creation';
   icon: string;
   color: string;
+}
+
+export interface CreationFilter {
+  status: 'all' | 'draft' | 'pending' | 'published' | 'rejected';
+  category: string;
+  search: string;
+  sortBy: 'date-desc' | 'date-asc' | 'popularity';
+}
+
+export interface CreationStats {
+  totalCreations: number;
+  published: number;
+  pending: number;
+  drafts: number;
+  rejected: number;
+  totalViews: number;
+  totalSales: number;
 }
 
 export interface MonthData {

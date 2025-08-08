@@ -42,6 +42,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (credentials: LoginCredentials) => {
     try {
+      // Mock mode for development when Firebase is not available
+      if (credentials.email.includes('@storeblox.com') || credentials.email === 'demo@demo.com') {
+        // Simulate successful login with mock user
+        const mockUser: User = {
+          id: 1,
+          username: 'CreatorDemo',
+          email: credentials.email,
+          settings: {
+            currency: 'EUR',
+            theme: 'light'
+          }
+        };
+        setUser(mockUser);
+        return;
+      }
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         credentials.email,
@@ -60,6 +76,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = async (credentials: RegisterCredentials) => {
     try {
+      // Mock mode for development when Firebase is not available
+      if (credentials.email.includes('@storeblox.com') || credentials.email === 'demo@demo.com') {
+        // Simulate successful registration with mock user
+        const mockUser: User = {
+          id: 1,
+          username: credentials.username,
+          email: credentials.email,
+          settings: {
+            currency: 'EUR',
+            theme: 'light'
+          }
+        };
+        setUser(mockUser);
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         credentials.email,

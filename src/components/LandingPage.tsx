@@ -1,143 +1,167 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Wallet, ChevronRight, LineChart, Shield, Smartphone } from 'lucide-react';
+import { Palette, Shield, Smartphone, Sparkles, Code, Users, Star } from 'lucide-react';
 import AuthModal from './AuthModal';
 
 export default function LandingPage() {
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-
-  const handleAuthClick = (mode: 'login' | 'register') => {
-    setAuthMode(mode);
-    setIsAuthModalOpen(true);
-  };
+  const [showAuth, setShowAuth] = useState(false);
 
   const features = [
     {
-      icon: <LineChart className="h-6 w-6 text-blue-500" />,
-      title: "Suivi en temps réel",
-      description: "Visualisez vos finances en temps réel avec des graphiques intuitifs"
+      icon: <Code className="text-blue-600" size={32} />,
+      title: "Partagez vos créations",
+      description: "Publiez scripts, maps, GUI et bien plus sur la marketplace StoreBlox"
     },
     {
-      icon: <Shield className="h-6 w-6 text-emerald-500" />,
-      title: "Sécurisé",
-      description: "Vos données sont cryptées et sécurisées avec Firebase"
+      icon: <Shield className="text-green-600" size={32} />,
+      title: "Plateforme sécurisée",
+      description: "Vos créations sont protégées avec un système de validation rigoureux"
     },
     {
-      icon: <Smartphone className="h-6 w-6 text-purple-500" />,
-      title: "Multi-plateformes",
-      description: "Accédez à vos finances depuis n'importe quel appareil"
+      icon: <Users className="text-purple-600" size={32} />,
+      title: "Communauté active",
+      description: "Rejoignez une communauté de créateurs passionnés et talentueux"
+    },
+    {
+      icon: <Smartphone className="text-orange-600" size={32} />,
+      title: "Interface moderne",
+      description: "Gérez vos créations avec une interface intuitive et responsive"
+    },
+    {
+      icon: <Star className="text-yellow-600" size={32} />,
+      title: "Système de notation",
+      description: "Recevez des avis et améliorez vos créations grâce aux retours"
+    },
+    {
+      icon: <Sparkles className="text-pink-600" size={32} />,
+      title: "Outils avancés",
+      description: "Filtres, recherche, statistiques pour optimiser vos performances"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Wallet className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text">
-              Shaya
-            </span>
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Palette className="text-white" size={24} />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              StoreBlox
+            </h1>
           </div>
-          
-          <div className="flex gap-4">
-            <button
-              onClick={() => handleAuthClick('register')}
-              className="px-4 py-2 text-gray-600 hover:text-gray-900 font-medium"
-            >
-              S'inscrire
-            </button>
-            <button
-              onClick={() => handleAuthClick('login')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              Se connecter
-            </button>
-          </div>
+          <button
+            onClick={() => setShowAuth(true)}
+            className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-medium"
+          >
+            Se connecter
+          </button>
         </div>
       </header>
 
-      <main>
-        {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-4 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
+      {/* Hero Section */}
+      <section className="py-20 text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            Votre plateforme de
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              {" "}créations{" "}
+            </span>
+            pour Minecraft
+          </h2>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Partagez, vendez et découvrez des créations incroyables : scripts, maps, textures, plugins et bien plus encore.
+          </p>
+          <button
+            onClick={() => setShowAuth(true)}
+            className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-lg flex items-center gap-2 mx-auto group"
           >
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text">
-              Gérez vos finances en toute simplicité
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Shaya vous aide à suivre vos dépenses, gérer votre budget et atteindre vos objectifs financiers.
-            </p>
-            <motion.button
-              onClick={() => handleAuthClick('register')}
-              className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-lg flex items-center gap-2 mx-auto group"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Commencer maintenant
-              <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-          </motion.div>
-        </section>
+            Commencer à créer
+            <Sparkles className="group-hover:rotate-12 transition-transform" size={20} />
+          </button>
+        </div>
+      </section>
 
-        {/* Features Section */}
-        <section className="max-w-7xl mx-auto px-4 py-20 bg-gray-50">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Features */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Pourquoi choisir StoreBlox ?
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                className="p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors group"
               >
-                <div className="mb-4 inline-block p-3 bg-gray-50 rounded-lg">
+                <div className="mb-4 group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                  {feature.title}
+                </h4>
                 <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Call to Action */}
-        <section className="max-w-7xl mx-auto px-4 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
+      {/* Categories Preview */}
+      <section className="py-16 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h3 className="text-3xl font-bold text-gray-900 mb-8">
+            Catégories populaires
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            {['Scripts', 'Maps', 'GUI', 'Plugins', 'Textures'].map((category) => (
+              <div
+                key={category}
+                className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              >
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                  <Code className="text-white" size={20} />
+                </div>
+                <p className="font-medium text-gray-900">{category}</p>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setShowAuth(true)}
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium text-lg flex items-center gap-2 mx-auto group"
           >
-            <h2 className="text-3xl font-bold mb-4">
-              Prêt à mieux gérer vos finances ?
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Rejoignez des milliers d'utilisateurs qui font confiance à Shaya
-            </p>
-            <motion.button
-              onClick={() => handleAuthClick('register')}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium text-lg flex items-center gap-2 mx-auto group"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Créer un compte gratuit
-              <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-          </motion.div>
-        </section>
-      </main>
+            Découvrir toutes les catégories
+            <Star className="group-hover:rotate-12 transition-transform" size={20} />
+          </button>
+        </div>
+      </section>
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        initialMode={authMode}
-      />
+      {/* CTA */}
+      <section className="py-20 bg-gray-900 text-white text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h3 className="text-4xl font-bold mb-4">
+            Prêt à partager vos créations ?
+          </h3>
+          <p className="text-xl text-gray-300 mb-8">
+            Rejoignez dès maintenant la communauté StoreBlox et commencez à monétiser votre créativité.
+          </p>
+          <button
+            onClick={() => setShowAuth(true)}
+            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium text-lg hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105"
+          >
+            Créer un compte gratuitement
+          </button>
+        </div>
+      </section>
+
+      {showAuth && (
+        <AuthModal
+          isOpen={showAuth}
+          onClose={() => setShowAuth(false)}
+          initialMode="register"
+        />
+      )}
     </div>
   );
 }

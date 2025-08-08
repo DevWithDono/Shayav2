@@ -1,121 +1,94 @@
 import React, { useState } from 'react';
-import { Wallet, User, LogOut, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
-import { useFinance } from '../context/FinanceContext';
+import { Palette, User, LogOut, Settings } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from './AuthModal';
-import CustomizeModal from './CustomizeModal';
 
 export default function Header() {
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isCustomizeModalOpen, setIsCustomizeModalOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { user, logout } = useAuth();
-  const { state, dispatch } = useFinance();
 
-  const months = [
-    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
-  ];
-
-  const goToPreviousMonth = () => {
-    const currentDate = new Date(state.currentMonth.year, state.currentMonth.month);
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    dispatch({
-      type: 'SET_CURRENT_MONTH',
-      payload: { year: currentDate.getFullYear(), month: currentDate.getMonth() },
-    });
-  };
-
-  const goToNextMonth = () => {
-    const currentDate = new Date(state.currentMonth.year, state.currentMonth.month);
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    dispatch({
-      type: 'SET_CURRENT_MONTH',
-      payload: { year: currentDate.getFullYear(), month: currentDate.getMonth() },
-    });
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setShowUserMenu(false);
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion:', error);
+    }
   };
 
   return (
-    <header className="bg-white border-b">
+    <header className="bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <Wallet className="h-6 w-6 text-blue-600" />
-            <span className="text-xl font-semibold text-gray-800">Shaya</span>
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Palette className="text-white" size={20} />
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              StoreBlox
+            </span>
           </div>
           
           {user && (
-            <div className="flex items-center gap-4">
-              <button onClick={goToPreviousMonth} className="p-1 hover:bg-gray-100 rounded-full">
-                <ChevronLeft className="h-5 w-5 text-gray-600" />
-              </button>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600 hidden sm:block">
+                Bienvenue, {user.username}
+              </span>
               
-              <div className="text-gray-700 font-medium">
-                {months[state.currentMonth.month]} {state.currentMonth.year}
-              </div>
-              
-              <button onClick={goToNextMonth} className="p-1 hover:bg-gray-100 rounded-full">
-                <ChevronRight className="h-5 w-5 text-gray-600" />
-              </button>
-            </div>
-          )}
-          
-          <div className="flex items-center gap-2">
-            {user ? (
-              <>
-                <button 
-                  onClick={() => setIsCustomizeModalOpen(true)}
-                  className="p-2 hover:bg-gray-100 rounded-full"
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100"
                 >
-                  <Settings className="h-5 w-5 text-gray-600" />
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <User className="text-white" size={16} />
+                  </div>
                 </button>
-                <div className="relative">
-                  <button
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100"
-                  >
-                    <User className="h-5 w-5 text-gray-600" />
-                    <span className="text-sm font-medium text-gray-700">{user.username}</span>
-                  </button>
-
-                  {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 border">
+                
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-50">
+                    <div className="py-1">
                       <button
-                        onClick={() => {
-                          logout();
-                          setShowUserMenu(false);
-                        }}
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <Settings className="w-4 h-4 mr-2" />
+                        Paramètres
+                      </button>
+                      <button
+                        onClick={handleLogout}
                         className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                       >
-                        <LogOut className="h-4 w-4 mr-2" />
+                        <LogOut className="w-4 h-4 mr-2" />
                         Se déconnecter
                       </button>
                     </div>
-                  )}
-                </div>
-              </>
-            ) : (
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          
+          {!user && (
+            <div className="flex items-center gap-2">
               <button
-                onClick={() => setIsAuthModalOpen(true)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100"
               >
-                <User className="h-5 w-5 text-gray-600" />
-                <span className="text-sm font-medium text-gray-700">Connexion</span>
+                Se connecter
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
-
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-      />
-
-      <CustomizeModal
-        isOpen={isCustomizeModalOpen}
-        onClose={() => setIsCustomizeModalOpen(false)}
-      />
+      
+      {/* Click outside to close menu */}
+      {showUserMenu && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowUserMenu(false)}
+        />
+      )}
     </header>
   );
 }
+
